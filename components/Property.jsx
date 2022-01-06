@@ -18,10 +18,10 @@ const Property = ({
     area,
     agency,
     isVerified,
-    externalId,
+    externalID,
   },
 }) => (
-  <Link href={`/property/${externalId}`} passHref>
+  <Link href={`/property/${externalID}`} passHref>
     <Flex
       flexwrap="wrap"
       w='420px'

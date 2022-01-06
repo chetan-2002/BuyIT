@@ -12,14 +12,29 @@ import {
 import { useRouter } from "next/router";
 import { MdCancel } from "react-icons/md";
 import Image from "next/image";
-import { filterData, getFilteredData } from "../utils/filterData";
+import { filterData, getFilteredData, getFilterValues } from "../utils/filterData";
 
 const SearchFilters = () => {
   const [filters, setFilters] = useState(filterData);
-  const searchProperties = (filterValues) => {};
+  const router = useRouter();
+  const searchProperties = (filterValues) => {
+    const path =router.pathname;
+    const { query } = router;
+    const values = getFilterValues(filterValues);
+    values.forEach((value) => {
+      if(value.value && filterValues?.[value.name]){
+        query[value.name] = value.value;
+      }
+      
+    });
+    router.push({
+      pathname: path,
+      query
+    });
+  };
   return (
     <Flex bg="gray.100" justifyContent="center" p="4" flexWrap="wrap">
-      {filters.map((filter) => {
+      {filters?.map((filter) => (
         <Box key={filter.queryName}>
           <Select
             onChange={(e) =>
@@ -35,8 +50,8 @@ const SearchFilters = () => {
               </option>
             ))}
           </Select>
-        </Box>;
-      })}
+        </Box>
+      ))}
     </Flex>
   );
 };
